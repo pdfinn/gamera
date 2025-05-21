@@ -6,6 +6,7 @@
 #include "serve9p.h"
 #include "fetcher.h"
 #include "parser.h"
+#include <sys/stat.h>
 
 /* simple read-only in-memory files */
 typedef struct MemFile MemFile;
@@ -23,6 +24,78 @@ static Srv fs;
 static UpdateCb updatecb;
 static NotifyCb historycb;
 static NotifyCb tabcb;
+
+static char*
+mkpath(const char *name)
+{
+    char *home, *path;
+    int n;
+
+    home = getenv("HOME");
+    if(home == nil)
+        return nil;
+    n = strlen(home) + strlen("/.gammera/") + strlen(name) + 1;
+    path = malloc(n);
+    if(path)
+        snprint(path, n, "%s/.gammera/%s", home, name);
+    return path;
+}
+
+static void
+ensureconfdir(void)
+{
+    char *home, buf[256];
+
+    home = getenv("HOME");
+    if(home == nil)
+        return;
+    snprint(buf, sizeof buf, "%s/.gammera", home);
+    mkdir(buf, 0755);
+}
+
+static void
+loadfile(MemFile *mf, const char *name)
+{
+    char *path;
+    int fd, n;
+    char buf[512];
+
+    mf->data = strdup("");
+    mf->len = 0;
+
+    path = mkpath(name);
+    if(path == nil)
+        return;
+    fd = open(path, OREAD);
+    if(fd >= 0){
+        while((n = read(fd, buf, sizeof buf)) > 0){
+            mf->data = realloc(mf->data, mf->len + n + 1);
+            memmove(mf->data + mf->len, buf, n);
+            mf->len += n;
+            mf->data[mf->len] = 0;
+        }
+        close(fd);
+    }
+    free(path);
+}
+
+static void
+savefile(MemFile *mf, const char *name)
+{
+    char *path;
+    int fd;
+
+    path = mkpath(name);
+    if(path == nil)
+        return;
+    fd = create(path, OWRITE, 0666);
+    if(fd >= 0){
+        if(mf->len > 0)
+            write(fd, mf->data, mf->len);
+        close(fd);
+    }
+    free(path);
+}
 
 static void
 fsread(Req *r)
@@ -88,6 +161,7 @@ fswrite(Req *r)
         histfile.len += strlen(url);
         histfile.data[histfile.len++] = '\n';
         histfile.data[histfile.len] = 0;
+        savefile(&histfile, "history");
         free(url);
 
         if(historycb)
@@ -105,6 +179,7 @@ fswrite(Req *r)
         memmove(bookmarkfile.data + bookmarkfile.len, r->ifcall.data, r->ifcall.count);
         bookmarkfile.len += r->ifcall.count;
         bookmarkfile.data[bookmarkfile.len] = 0;
+        savefile(&bookmarkfile, "bookmarks");
         respond(r, nil);
         return;
     }
@@ -137,10 +212,9 @@ startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, NotifyCb 
     htmlfile.len = strlen(html);
     textfile.data = strdup((char*)text);
     textfile.len = strlen(text);
-    histfile.data = strdup("");
-    histfile.len = 0;
-    bookmarkfile.data = strdup("");
-    bookmarkfile.len = 0;
+    ensureconfdir();
+    loadfile(&histfile, "history");
+    loadfile(&bookmarkfile, "bookmarks");
     tabfile.data = strdup("");
     tabfile.len = 0;
     updatecb = cb;
