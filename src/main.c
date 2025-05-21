@@ -47,8 +47,9 @@ historyupdate(void)
  * Refresh the bookmark list by reading the 9P bookmarks file.
  */
 static void
-bookmarkupdate(void)
+bookmarkupdate(const char *url)
 {
+    USED(url);
     int fd, n;
     char *buf;
     Dir *d;
