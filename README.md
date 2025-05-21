@@ -66,3 +66,14 @@ $ echo 'http://example.net/' > /mnt/gammera/ctl
 The current interface simply renders text in a window. Future versions
 will provide interactive controls (address bar, clickable links) built on
 top of the 9P interface.
+
+## Testing
+
+The test suite uses the Plan 9 `mk` build tool. Make sure `mk` is
+available in your `PATH` before running the tests. If you are on a Unix
+system without Plan 9 tools installed, run `scripts/install_deps.sh` to
+install plan9port and set up the environment.
+
+```sh
+tests/run_tests.sh
+```
