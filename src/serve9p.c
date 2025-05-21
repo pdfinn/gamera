@@ -216,7 +216,7 @@ fsdestroy(File *f)
 
 
 void
-startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb tcb)
+startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb bookmarkcb)
 {
     htmlfile.data = strdup((char*)html);
     htmlfile.len = strlen(html);
@@ -229,7 +229,7 @@ startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb tcb
     tabfile.len = 0;
     updatecb = cb;
     historycb = hcb;
-    tabcb = tcb;
+    tabcb = bookmarkcb;
 
     fs.tree = alloctree(nil, nil, DMDIR|0555, fsdestroy);
     createfile(fs.tree->root, "page.html", nil, 0444, &htmlfile);

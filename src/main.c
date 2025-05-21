@@ -43,8 +43,11 @@ historyupdate(void)
     close(fd);
 }
 
+/*
+ * Refresh the bookmark list by reading the 9P bookmarks file.
+ */
 static void
-tabsupdate(void)
+bookmarkupdate(void)
 {
     int fd, n;
     char *buf;
@@ -146,7 +149,7 @@ threadmain(int argc, char *argv[])
     flushimage(display, 1);
 
     current = strdup(text);
-    startfs(data, text, update, historyupdate, tabsupdate);
+    startfs(data, text, update, historyupdate, bookmarkupdate);
     proccreate(navproc, nil, 8192);
 
 
