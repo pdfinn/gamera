@@ -23,7 +23,7 @@ static MemFile tabfile;
 static Srv fs;
 static UpdateCb updatecb;
 static NotifyCb historycb;
-static NotifyCb tabcb;
+static TabCb tabcb;
 
 static char*
 mkpath(const char *name)
@@ -185,12 +185,22 @@ fswrite(Req *r)
     }
 
     if(strcmp(r->fid->file->dir.name, "tabctl") == 0){
+        char *url;
+
         tabfile.data = realloc(tabfile.data, tabfile.len + r->ifcall.count + 1);
         memmove(tabfile.data + tabfile.len, r->ifcall.data, r->ifcall.count);
         tabfile.len += r->ifcall.count;
         tabfile.data[tabfile.len] = 0;
-        if(tabcb)
-            tabcb();
+
+        url = malloc(r->ifcall.count + 1);
+        if(url){
+            memmove(url, r->ifcall.data, r->ifcall.count);
+            url[r->ifcall.count] = 0;
+            if(tabcb)
+                tabcb(url);
+            free(url);
+        }
+
         respond(r, nil);
         return;
     }
@@ -206,7 +216,7 @@ fsdestroy(File *f)
 
 
 void
-startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, NotifyCb tcb)
+startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb tcb)
 {
     htmlfile.data = strdup((char*)html);
     htmlfile.len = strlen(html);

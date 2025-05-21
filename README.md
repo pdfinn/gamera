@@ -45,7 +45,7 @@ See `doc/roadmap.md` for planned tasks.
 
 ## 9P Interface
 
-When running, Gammera mounts a small 9P file system at `/mnt/gammera`.
+When running, Gammera mounts a single 9P service at `/mnt/gammera`.
 The following files are available:
 
 * `page.html` – raw HTML of the current page.

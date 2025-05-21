@@ -5,6 +5,7 @@
 #include "fetcher.h"
 #include "parser.h"
 #include "serve9p.h"
+#include "tabs.h"
 
 static char *current;
 static char *historybuf;
@@ -130,9 +131,6 @@ threadmain(int argc, char *argv[])
     if(text == nil)
         text = strdup(data);
 
-    fs_init();
-    fs_update_page(text);
-
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
     mctl = initmouse(nil, screen);
@@ -150,6 +148,7 @@ threadmain(int argc, char *argv[])
     current = strdup(text);
     startfs(data, text, update, historyupdate, tabsupdate);
     proccreate(navproc, nil, 8192);
+
 
     free(data);
     free(text);
