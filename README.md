@@ -30,3 +30,25 @@ web page, strip basic HTML tags, and display the resulting text in a
 window. Pass a URL on the command line (or omit it to fetch
 `http://example.com/`).
 See `doc/roadmap.md` for planned tasks.
+
+## 9P Interface
+
+When running, Gammera mounts a small 9P file system at `/mnt/gammera`.
+The following files are available:
+
+* `page.html` – raw HTML of the current page.
+* `page.txt`  – plain text extracted from the page.
+* `ctl`       – write a URL here to fetch and display a new page.
+
+Example usage:
+
+```sh
+$ cat /mnt/gammera/page.txt
+$ echo 'http://example.net/' > /mnt/gammera/ctl
+```
+
+## UI Controls
+
+The current interface simply renders text in a window. Future versions
+will provide interactive controls (address bar, clickable links) built on
+top of the 9P interface.
