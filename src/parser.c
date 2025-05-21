@@ -32,9 +32,12 @@ extract_text(const char *html)
         }
         if(intag)
             continue;
-        out = realloc(out, len+2);
-        if(out == nil)
+        char *tmp = realloc(out, len+2);
+        if(tmp == nil){
+            free(out);
             return nil;
+        }
+        out = tmp;
         out[len++] = *p;
         out[len] = '\0';
     }
