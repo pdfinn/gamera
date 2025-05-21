@@ -82,6 +82,12 @@ available in your `PATH` before running the tests. If you are on a Unix
 system without Plan 9 tools installed, run `scripts/install_deps.sh` to
 install plan9port and set up the environment.
 
+Local loopback networking must be available because the fetch_url_test starts a small HTTP server. Run tests in an environment with plan9port installed. Set `OFFLINE=1` when running `tests/run_tests.sh` to use a mock fetcher and avoid network access.
+
+```sh
+OFFLINE=1 tests/run_tests.sh
+```
+
 ```sh
 tests/run_tests.sh
 ```

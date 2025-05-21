@@ -1,4 +1,8 @@
 #!/bin/sh
+# Build and run the unit tests.
+# Requires plan9port's 'mk' tool. fetch_url_test starts a local HTTP
+# server on the loopback interface, so networking on localhost must be
+# allowed. Set OFFLINE=1 to run with a mock fetcher and skip the server.
 set -e
 cd "$(dirname "$0")"
 
@@ -9,7 +13,11 @@ if ! command -v mk >/dev/null 2>&1; then
   exit 1
 fi
 mk clean >/dev/null
-mk parser_test parseurl_test fetch_url_test >/tmp/test_build.log && tail -n 20 /tmp/test_build.log
+MKFLAGS=""
+if [ -n "$OFFLINE" ]; then
+  MKFLAGS="FETCHER_SRC=mock_fetcher.c"
+fi
+mk $MKFLAGS parser_test parseurl_test fetch_url_test >/tmp/test_build.log && tail -n 20 /tmp/test_build.log
 
 # run parser_test
 ./parser_test > /tmp/parser_test.out
@@ -21,14 +29,17 @@ else
   exit 1
 fi
 
-# start simple http server for fetch_url_test
-PORT=8888
-python3 -m http.server $PORT --directory .. >/tmp/http.log 2>&1 &
-server_pid=$!
-sleep 1
-
-./fetch_url_test "http://127.0.0.1:$PORT/README.md" > /tmp/fetch.out
-kill $server_pid
+# run fetch_url_test
+if [ -n "$OFFLINE" ]; then
+  ./fetch_url_test dummy >/tmp/fetch.out
+else
+  PORT=8888
+  python3 -m http.server $PORT --directory .. >/tmp/http.log 2>&1 &
+  server_pid=$!
+  sleep 1
+  ./fetch_url_test "http://127.0.0.1:$PORT/README.md" > /tmp/fetch.out
+  kill $server_pid
+fi
 if grep -q '^HTTP/' /tmp/fetch.out; then
   echo "fetch_url_test failed: headers present" >&2
   cat /tmp/fetch.out >&2

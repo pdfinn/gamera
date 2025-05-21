@@ -2,6 +2,9 @@
 
 TARG=parser_test parseurl_test fetch_url_test
 
+# source file providing fetch_url implementation
+FETCHER_SRC=../src/fetcher.c
+
 parser_test: parser_test.$O parser.$O
     $LD -o $target parser_test.$O parser.$O
 
@@ -23,8 +26,8 @@ fetch_url_test: fetch_url_test.$O fetcher.$O
 fetch_url_test.$O: fetch_url_test.c ../src/fetcher.h
     $CC -I../src -c -o $target fetch_url_test.c
 
-fetcher.$O: ../src/fetcher.c ../src/fetcher.h
-    $CC -I../src -c -o $target ../src/fetcher.c
+fetcher.$O: $FETCHER_SRC ../src/fetcher.h
+    $CC -I../src -c -o $target $FETCHER_SRC
 
 clean:V:
     rm -f *.[$OS] $TARG parser.$O fetcher.$O
