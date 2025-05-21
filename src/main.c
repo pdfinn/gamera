@@ -1,15 +1,15 @@
 #include <u.h>
 #include <libc.h>
 #include <draw.h>
-#include <thread.h>
 
-#include "fetch.h"
+#include "fetcher.h"
 
 void
 usage(void)
 {
-    fprint(2, "usage: gammera url\n");
-    threadexitsall("usage");
+
+    fprint(2, "usage: gammera [url]\n");
+
 }
 
 void

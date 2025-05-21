@@ -1,16 +1,16 @@
 <$objtype/mkfile>
 
 TARG=gammera
-OFILES=src/main.$O src/fetch.$O
+OFILES=src/main.$O src/fetcher.$O
 
 $TARG: $OFILES
 $LD -o $target $OFILES
 
-src/main.$O: src/main.c src/fetch.h
+src/main.$O: src/main.c
 $CC -c src/main.c
 
-src/fetch.$O: src/fetch.c src/fetch.h
-$CC -c src/fetch.c
+src/fetcher.$O: src/fetcher.c
+$CC -c src/fetcher.c
 
 clean:V:
 rm -f src/*.[$OS] $TARG
