@@ -5,6 +5,7 @@
 #include "fetcher.h"
 #include "parser.h"
 #include "serve9p.h"
+#include "tabs.h"
 
 static char *current;
 
@@ -15,12 +16,6 @@ historyupdate(void)
     USED(current);
 }
 
-static void
-tabsupdate(void)
-{
-    /* TODO: update tabs */
-    USED(current);
-}
 
 static void
 update(const char *html, const char *text)
@@ -64,6 +59,7 @@ threadmain(int argc, char *argv[])
 
     fs_init();
     fs_update_page(text);
+    tabs_init(update);
 
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
@@ -75,7 +71,7 @@ threadmain(int argc, char *argv[])
     flushimage(display, 1);
 
     current = strdup(text);
-    startfs(data, text, update, historyupdate, tabsupdate);
+    startfs(data, text, update, historyupdate, tabs_new);
 
     free(data);
     free(text);

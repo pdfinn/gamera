@@ -3,6 +3,7 @@
 
 typedef void (*UpdateCb)(const char *html, const char *text);
 typedef void (*NotifyCb)(void);
-void startfs(const char *html, const char *text, UpdateCb pagecb, NotifyCb histcb, NotifyCb tabcb);
+typedef void (*TabCb)(const char *url);
+void startfs(const char *html, const char *text, UpdateCb pagecb, NotifyCb histcb, TabCb tabcb);
 
 #endif
