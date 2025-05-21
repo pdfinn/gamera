@@ -1,32 +1,40 @@
 #include <u.h>
 #include <libc.h>
 #include <draw.h>
-#include <thread.h>
+
 #include "fetcher.h"
 
 void
 usage(void)
 {
+
     fprint(2, "usage: gammera [url]\n");
-    threadexitsall("usage");
+
 }
 
 void
 threadmain(int argc, char *argv[])
 {
-    char *url, *body;
+    char *url, *data;
 
     ARGBEGIN{ default: usage(); }ARGEND;
-
     if(argc < 1)
-        url = "http://example.com/";
-    else
-        url = argv[0];
+        usage();
+    url = argv[0];
 
-    body = fetch_url(url);
-    if(body == nil)
-        sysfatal("fetch %s failed: %r", url);
+    data = fetch_url(url);
+    if(data == nil)
+        sysfatal("fetch failed");
 
-    print("%s\n", body);
-    free(body);
+    if(initdraw(nil, nil, "Gammera") < 0)
+        sysfatal("initdraw failed: %r");
+
+    screen->r = insetrect(screen->r, 10);
+    draw(screen, screen->r, display->white, nil, ZP);
+    drawstring(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black,
+        ZP, font, data);
+    flushimage(display, 1);
+
+    sleep(5000);
+    free(data);
 }

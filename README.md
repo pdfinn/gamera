@@ -21,6 +21,5 @@ This will compile the sources under `src/` using the Plan 9 toolchain.
 
 ## Status
 
-The project currently includes a minimal HTTP fetcher and a command-line
-test driver. It can retrieve the contents of a URL using Plan 9's network
-stack, but no rendering is implemented yet.
+A minimal skeleton program now fetches a URL and displays the contents in a
+window. See `doc/roadmap.md` for planned tasks.
