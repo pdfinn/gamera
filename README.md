@@ -26,7 +26,7 @@ This script installs Plan9port and configures your PATH so the `mk` build tool i
 ## Status
 
 Gammera is still in an early stage, but a minimal program can fetch a
-web page, strip basic HTML tags, and display the resulting text in a
-window. Pass a URL on the command line (or omit it to fetch
-`http://example.com/`).
+web page, strip basic HTML tags, render the text line by line, and
+expose the page contents via a small 9P file system. Pass a URL on the
+command line (or omit it to fetch `http://example.com/`).
 See `doc/roadmap.md` for planned tasks.

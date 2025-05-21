@@ -7,7 +7,7 @@ set -e
 sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
     gcc make git x11-utils libx11-dev libxt-dev libxext-dev \
-    libfontconfig1-dev libfreetype6-dev
+    libfontconfig1-dev libfreetype6-dev libxrender-dev libxft-dev
 
 # Set install location
 P9DIR="/usr/local/src/plan9port"

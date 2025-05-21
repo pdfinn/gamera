@@ -4,6 +4,8 @@
 #include <thread.h>
 #include "fetch.h"
 #include "parser.h"
+#include "render.h"
+#include "fs.h"
 
 void
 usage(void)
@@ -32,13 +34,15 @@ threadmain(int argc, char *argv[])
     if(text == nil)
         text = strdup(data);
 
+    fs_init();
+    fs_update_page(text);
+
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
 
     screen->r = insetrect(screen->r, 10);
     draw(screen, screen->r, display->white, nil, ZP);
-    drawstring(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, text);
-    flushimage(display, 1);
+    render_text(text);
 
     free(data);
     free(text);

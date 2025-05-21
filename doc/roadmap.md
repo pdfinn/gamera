@@ -4,8 +4,8 @@ This document lists upcoming tasks for building the browser.
 
 1. **HTTP Fetcher** - **Done.** Basic fetching via `hget` is implemented.
 2. **Parsing** - **Done.** Simple tag stripping extracts text from HTML.
-3. **Rendering** - Render plain text pages using `libdraw`.
-4. **9P Interface** - Expose browser controls via a 9P file system.
+3. **Rendering** - **Done.** Plain text pages render line by line using `libdraw`.
+4. **9P Interface** - **In Progress.** A simple file `/srv/gammera` exposes the current page text.
 5. **Window Management** - Support multiple tabs/windows using `libthread`.
 6. **User Interface** - Build interactive controls (address bar, links).
 
