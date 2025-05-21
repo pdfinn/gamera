@@ -1,4 +1,11 @@
-# Gammera Web Browser
+<div align="center">
+  <img src="Gammera_the_Invincible.png" alt="Gammera" width="400"/>
+  <h1>Gammera Web Browser</h1>
+  <p>
+    <strong>To be a monster without being monsterous</strong>
+  </p>
+  <hr/>
+</div>
 
 Gammera is a web browser designed to work on Plan 9 from Bell Labs. This
 repository contains the beginnings of an experimental implementation
@@ -17,6 +24,11 @@ This will compile the sources under `src/` using the Plan 9 toolchain.
 For Linux or other Unix-like systems you can install plan9port and the
 required build tools using `scripts/install_deps.sh` before running `mk`.
 This script installs Plan9port and configures your PATH so the `mk` build tool is available.
+It also installs `libssl-dev` so that HTTPS support can be built. If you are
+on a native Plan 9 system, ensure the appropriate TLS library is installed
+(for example the 9front TLS tools).
+Note that the install script downloads packages from the network and may fail
+if your environment lacks internet access.
 
 ## Project Layout
 
@@ -30,3 +42,25 @@ web page, strip basic HTML tags, render the text line by line, and
 expose the page contents via a small 9P file system. Pass a URL on the
 command line (or omit it to fetch `http://example.com/`).
 See `doc/roadmap.md` for planned tasks.
+
+## 9P Interface
+
+When running, Gammera mounts a small 9P file system at `/mnt/gammera`.
+The following files are available:
+
+* `page.html` – raw HTML of the current page.
+* `page.txt`  – plain text extracted from the page.
+* `ctl`       – write a URL here to fetch and display a new page.
+
+Example usage:
+
+```sh
+$ cat /mnt/gammera/page.txt
+$ echo 'http://example.net/' > /mnt/gammera/ctl
+```
+
+## UI Controls
+
+The current interface simply renders text in a window. Future versions
+will provide interactive controls (address bar, clickable links) built on
+top of the 9P interface.

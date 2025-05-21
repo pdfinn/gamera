@@ -19,11 +19,14 @@ access.
 ## File System Integration
 
 Plan 9 applications typically expose interfaces as file trees via 9P.
-Gammera intends to expose its internal state so that scripts can
-manipulate browser tabs, history, and bookmarks.
+Gammera exposes its internal state as a 9P file tree mounted at
+`/mnt/gammera`. Scripts can read `page.html` and `page.txt` or write a new
+URL to `ctl` to trigger navigation. This interface is the foundation for
+future features such as tabs, history, and bookmarks.
 
 ## Current State
 
 Gammera currently downloads a page using `hget`, strips HTML tags to
 extract plain text, and displays the result in a window using `libdraw`.
-More advanced parsing and rendering remain to be implemented.
+The 9P interface described above is implemented and can be used to fetch
+new pages. More advanced parsing and rendering remain to be implemented.

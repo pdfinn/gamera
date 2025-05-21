@@ -1,27 +1,22 @@
 <$PLAN9/src/mkhdr
 
-TARG=gammera
-OFILES=src/main.$O src/fetch.$O src/parser.$O src/render.$O src/fs.$O
+OFILES=main.$O fetcher.$O parser.$O serve9p.$O
+
 
 $TARG: $OFILES
-	 -o $target $OFILES
+	$LD -o $target $OFILES
 
-src/main.$O: src/main.c src/fetch.h src/parser.h src/render.h src/fs.h
-	 -c src/main.c
+main.$O: src/main.c src/fetcher.h src/parser.h src/serve9p.h
+        $CC -c -o $target src/main.c
 
-src/fetch.$O: src/fetch.c src/fetch.h
-	 -c src/fetch.c
+fetcher.$O: src/fetcher.c src/fetcher.h
+        $CC -c -o $target src/fetcher.c
 
-src/parser.$O: src/parser.c src/parser.h
-	 -c src/parser.c
+parser.$O: src/parser.c src/parser.h
+	$CC -c -o $target src/parser.c
 
-src/render.$O: src/render.c src/render.h
-	 -c src/render.c
-
-src/fs.$O: src/fs.c src/fs.h
-	 -c src/fs.c
+serve9p.$O: src/serve9p.c src/serve9p.h src/fetcher.h src/parser.h
+        $CC -c -o $target src/serve9p.c
 
 clean:V:
-	rm -f src/*.[$OS] $TARG
-
-<$PLAN9/src/mkone
+	rm -f *.[$OS] $TARG

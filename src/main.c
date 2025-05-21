@@ -2,10 +2,38 @@
 #include <libc.h>
 #include <draw.h>
 #include <thread.h>
-#include "fetch.h"
+#include "fetcher.h"
 #include "parser.h"
-#include "render.h"
-#include "fs.h"
+#include "serve9p.h"
+
+static char *current;
+
+static void
+historyupdate(void)
+{
+    /* TODO: update history window */
+    USED(current);
+}
+
+static void
+tabsupdate(void)
+{
+    /* TODO: update tabs */
+    USED(current);
+}
+
+static void
+update(const char *html, const char *text)
+{
+    USED(html);
+
+    free(current);
+    current = strdup((char*)text);
+    draw(screen, screen->r, display->white, nil, ZP);
+    string(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black,
+        ZP, font, current);
+    flushimage(display, 1);
+}
 
 void
 usage(void)
@@ -42,7 +70,12 @@ threadmain(int argc, char *argv[])
 
     screen->r = insetrect(screen->r, 10);
     draw(screen, screen->r, display->white, nil, ZP);
-    render_text(text);
+
+    string(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, text);
+    flushimage(display, 1);
+
+    current = strdup(text);
+    startfs(data, text, update, historyupdate, tabsupdate);
 
     free(data);
     free(text);
