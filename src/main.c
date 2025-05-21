@@ -3,6 +3,7 @@
 #include <draw.h>
 #include <thread.h>
 #include "fetch.h"
+#include "parser.h"
 
 void
 usage(void)
@@ -14,7 +15,7 @@ usage(void)
 void
 threadmain(int argc, char *argv[])
 {
-    char *url, *data;
+    char *url, *data, *text;
 
     ARGBEGIN{ default: usage(); }ARGEND;
 
@@ -27,15 +28,20 @@ threadmain(int argc, char *argv[])
     if(data == nil)
         sysfatal("fetch %s failed: %r", url);
 
+    text = extract_text(data);
+    if(text == nil)
+        text = strdup(data);
+
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
 
     screen->r = insetrect(screen->r, 10);
     draw(screen, screen->r, display->white, nil, ZP);
-    drawstring(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, data);
+    drawstring(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, text);
     flushimage(display, 1);
 
     free(data);
+    free(text);
 
     for(;;)
         sleep(1000);
