@@ -24,8 +24,7 @@ required build tools using `scripts/install_deps.sh` before running `mk`.
 
 ## Status
 
-At the moment this repository only contains a very small skeleton program
-and design notes. It does not yet provide any real browsing capability.
-
-A minimal skeleton program now fetches a URL and displays the contents in a
-window. See `doc/roadmap.md` for planned tasks.
+Gammera is still in an early stage, but a minimal program is able to
+retrieve a web page and show the raw text in a window. Pass a URL on the
+command line (or omit it to fetch `http://example.com/`).
+See `doc/roadmap.md` for planned tasks.
