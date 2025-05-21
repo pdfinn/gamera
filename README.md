@@ -2,7 +2,7 @@
   <img src="Gammera_the_Invincible.png" alt="Gammera" width="400"/>
   <h1>Gammera Web Browser</h1>
   <p>
-    <strong>To be a monster without being mosterous</strong>
+    <strong>To be a monster without being monsterous</strong>
   </p>
   <hr/>
 </div>
