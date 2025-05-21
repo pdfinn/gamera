@@ -1,6 +1,7 @@
 <$PLAN9/src/mkhdr
 
 OFILES=main.$O fetcher.$O parser.$O serve9p.$O
+# serve9p.$O provides the consolidated 9P interface
 
 
 $TARG: $OFILES

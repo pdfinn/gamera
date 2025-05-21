@@ -19,7 +19,7 @@ access.
 ## File System Integration
 
 Plan 9 applications typically expose interfaces as file trees via 9P.
-Gammera exposes its internal state as a 9P file tree mounted at
+Gammera exposes its internal state via a single 9P service mounted at
 `/mnt/gammera`. Scripts can read `page.html` and `page.txt` or write a new
 URL to `ctl` to trigger navigation. This interface is the foundation for
 future features such as tabs, history, and bookmarks.

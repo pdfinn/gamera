@@ -62,8 +62,6 @@ threadmain(int argc, char *argv[])
     if(text == nil)
         text = strdup(data);
 
-    fs_init();
-    fs_update_page(text);
 
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
