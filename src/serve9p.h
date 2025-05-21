@@ -2,6 +2,7 @@
 #define SERVE9P_H
 
 typedef void (*UpdateCb)(const char *html, const char *text);
-void startfs(const char *html, const char *text, UpdateCb cb);
+typedef void (*NotifyCb)(void);
+void startfs(const char *html, const char *text, UpdateCb pagecb, NotifyCb histcb, NotifyCb tabcb);
 
 #endif
