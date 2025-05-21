@@ -1,0 +1,6 @@
+fetcher.o
+gammera
+main.o
+parser.o
+plan9port/
+serve9p.o

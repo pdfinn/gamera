@@ -1,4 +1,11 @@
-# Gammera Web Browser
+<div align="center">
+  <img src="Gammera_the_Invincible.png" alt="Gammera" width="400"/>
+  <h1>Gammera Web Browser</h1>
+  <p>
+    <strong>To be a monster without being mosterous</strong>
+  </p>
+  <hr/>
+</div>
 
 Gammera is a web browser designed to work on Plan 9 from Bell Labs. This
 repository contains the beginnings of an experimental implementation
