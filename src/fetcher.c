@@ -84,6 +84,12 @@ fetch_url(const char *url)
     inhdr = 1;
     while((line = Brdline(&buf, '\n')) != nil){
         int n = Blinelen(&buf);
+        if(inhdr){
+            if((n == 2 && line[0] == '\r' && line[1] == '\n') ||
+               (n == 1 && (line[0] == '\n' || line[0] == '\r')))
+                inhdr = 0;
+            continue;
+        }
         char *tmp = realloc(data, len + n + 1);
         if(tmp == nil){
             free(data);

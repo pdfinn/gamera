@@ -11,6 +11,14 @@ Gammera is a web browser designed to work on Plan 9 from Bell Labs. This
 repository contains the beginnings of an experimental implementation
 written in the Plan 9 style. It is **not** a complete browser yet.
 
+## Coding Conventions
+
+Gammera follows the Plan 9 philosophy of composing small programs that
+cooperate through simple interfaces. Keep global state to a minimum and
+pass data explicitly between functions. Use the core Plan 9 libraries
+(`libc`, `libdraw`, `libthread`) to remain portable between native Plan 9
+and plan9port. Avoid adding heavy external dependencies.
+
 ## Building on Plan 9
 
 Plan 9 uses the `mk` build tool. From a Plan 9 environment you can run:

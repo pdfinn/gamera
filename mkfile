@@ -1,5 +1,10 @@
 <$PLAN9/src/mkhdr
 
+
+# name of the resulting executable
+TARG=gammera
+
+# object files for the build
 OFILES=main.$O fetcher.$O parser.$O serve9p.$O tabs.$O fs.$O
 # serve9p.$O provides the consolidated 9P interface
 
