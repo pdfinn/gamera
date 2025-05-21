@@ -9,6 +9,7 @@ access.
 
 * **Fetcher** – Retrieves HTTP/HTTPS resources using the Plan 9 network
   stack. Initially this may rely on external tools like `hget`.
+
 * **Parser** – Parses HTML and CSS into a simple DOM representation.
 * **Renderer** – Uses `libdraw` and `libhtml` (when available) to render
   pages into windows.
@@ -23,5 +24,5 @@ manipulate browser tabs, history, and bookmarks.
 
 ## Current State
 
-This document outlines the goals and rough architecture. No real
-implementation exists yet beyond a simple hello-world placeholder.
+A stub fetcher now downloads a page using `hget` and displays the raw
+contents in a window. Parsing and rendering are not yet implemented.

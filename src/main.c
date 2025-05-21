@@ -15,6 +15,7 @@ threadmain(int argc, char *argv[])
 {
     ARGBEGIN{ default: usage(); }ARGEND;
 
+
     if(initdraw(nil, nil, "Gammera") < 0)
         sysfatal("initdraw failed: %r");
 
@@ -26,4 +27,4 @@ threadmain(int argc, char *argv[])
 
     for(;;)
         sleep(1000);
-}
+
