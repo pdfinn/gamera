@@ -34,6 +34,8 @@ if your environment lacks internet access.
 
 - `src/` – C source code.
 - `doc/` – Design documentation and notes.
+- `$HOME/.gammera/` – history and bookmark storage. See
+  [doc/storage.md](doc/storage.md) for details.
 
 ## Status
 
