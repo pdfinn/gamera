@@ -1,19 +1,23 @@
-<$objtype/mkfile>
+<$PLAN9/src/mkhdr
 
 TARG=gammera
-OFILES=src/main.$O src/fetch.$O src/parser.$O
+OFILES=main.$O fetch.$O parser.$O serve9p.$O
+
 
 $TARG: $OFILES
-$LD -o $target $OFILES
+	$LD -o $target $OFILES
 
-src/main.$O: src/main.c src/fetch.h src/parser.h
-$CC -c src/main.c
+main.$O: src/main.c src/fetch.h src/parser.h src/serve9p.h
+	$CC -c -o $target src/main.c
 
-src/fetch.$O: src/fetch.c src/fetch.h
-$CC -c src/fetch.c
+fetch.$O: src/fetch.c src/fetch.h
+	$CC -c -o $target src/fetch.c
 
-src/parser.$O: src/parser.c src/parser.h
-$CC -c src/parser.c
+parser.$O: src/parser.c src/parser.h
+	$CC -c -o $target src/parser.c
+
+serve9p.$O: src/serve9p.c src/serve9p.h src/fetch.h src/parser.h
+        $CC -c -o $target src/serve9p.c
 
 clean:V:
-rm -f src/*.[$OS] $TARG
+	rm -f *.[$OS] $TARG

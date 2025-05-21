@@ -4,6 +4,22 @@
 #include <thread.h>
 #include "fetch.h"
 #include "parser.h"
+#include "serve9p.h"
+
+static char *current;
+
+static void
+update(const char *html, const char *text)
+{
+    USED(html);
+
+    free(current);
+    current = strdup((char*)text);
+    draw(screen, screen->r, display->white, nil, ZP);
+    string(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black,
+        ZP, font, current);
+    flushimage(display, 1);
+}
 
 void
 usage(void)
@@ -37,8 +53,11 @@ threadmain(int argc, char *argv[])
 
     screen->r = insetrect(screen->r, 10);
     draw(screen, screen->r, display->white, nil, ZP);
-    drawstring(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, text);
+    string(screen, Pt(screen->r.min.x+10, screen->r.min.y+10), display->black, ZP, font, text);
     flushimage(display, 1);
+
+    current = strdup(text);
+    startfs(data, text, update);
 
     free(data);
     free(text);
