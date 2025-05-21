@@ -1,0 +1,30 @@
+<$PLAN9/src/mkhdr
+
+TARG=parser_test parseurl_test fetch_url_test
+
+parser_test: parser_test.$O parser.$O
+    $LD -o $target parser_test.$O parser.$O
+
+parser_test.$O: parser_test.c ../src/parser.h
+    $CC -I../src -c -o $target parser_test.c
+
+parser.$O: ../src/parser.c ../src/parser.h
+    $CC -I../src -c -o $target ../src/parser.c
+
+parseurl_test: parseurl_test.$O
+    $LD -o $target parseurl_test.$O
+
+parseurl_test.$O: parseurl_test.c
+    $CC -I../src -c -o $target parseurl_test.c
+
+fetch_url_test: fetch_url_test.$O fetcher.$O
+    $LD -o $target fetch_url_test.$O fetcher.$O
+
+fetch_url_test.$O: fetch_url_test.c ../src/fetcher.h
+    $CC -I../src -c -o $target fetch_url_test.c
+
+fetcher.$O: ../src/fetcher.c ../src/fetcher.h
+    $CC -I../src -c -o $target ../src/fetcher.c
+
+clean:V:
+    rm -f *.[$OS] $TARG parser.$O fetcher.$O
