@@ -1,6 +1,5 @@
 <$PLAN9/src/mkhdr
 
-TARG=gammera
 OFILES=main.$O fetcher.$O parser.$O serve9p.$O
 
 
