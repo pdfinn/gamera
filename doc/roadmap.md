@@ -2,8 +2,8 @@
 
 This document lists upcoming tasks for building the browser.
 
-1. **HTTP Fetcher** - Implement basic URL fetching using Plan 9's network tools.
-2. **Parsing** - Create a minimal HTML parser producing a simple DOM.
+1. **HTTP Fetcher** - **Done.** Basic fetching via `hget` is implemented.
+2. **Parsing** - **Done.** Simple tag stripping extracts text from HTML.
 3. **Rendering** - Render plain text pages using `libdraw`.
 4. **9P Interface** - Expose browser controls via a 9P file system.
 5. **Window Management** - Support multiple tabs/windows using `libthread`.

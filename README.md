@@ -16,6 +16,7 @@ This will compile the sources under `src/` using the Plan 9 toolchain.
 
 For Linux or other Unix-like systems you can install plan9port and the
 required build tools using `scripts/install_deps.sh` before running `mk`.
+This script installs Plan9port and configures your PATH so the `mk` build tool is available.
 
 ## Project Layout
 
@@ -24,7 +25,8 @@ required build tools using `scripts/install_deps.sh` before running `mk`.
 
 ## Status
 
-Gammera is still in an early stage, but a minimal program is able to
-retrieve a web page and show the raw text in a window. Pass a URL on the
-command line (or omit it to fetch `http://example.com/`).
+Gammera is still in an early stage, but a minimal program can fetch a
+web page, strip basic HTML tags, and display the resulting text in a
+window. Pass a URL on the command line (or omit it to fetch
+`http://example.com/`).
 See `doc/roadmap.md` for planned tasks.

@@ -24,5 +24,6 @@ manipulate browser tabs, history, and bookmarks.
 
 ## Current State
 
-A stub fetcher now downloads a page using `hget` and displays the raw
-contents in a window. Parsing and rendering are not yet implemented.
+Gammera currently downloads a page using `hget`, strips HTML tags to
+extract plain text, and displays the result in a window using `libdraw`.
+More advanced parsing and rendering remain to be implemented.
