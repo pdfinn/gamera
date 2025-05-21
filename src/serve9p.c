@@ -4,7 +4,7 @@
 #include <thread.h>
 #include <9p.h>
 #include "serve9p.h"
-#include "fetch.h"
+#include "fetcher.h"
 #include "parser.h"
 
 /* simple read-only in-memory files */

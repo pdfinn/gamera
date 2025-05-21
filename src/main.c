@@ -2,7 +2,7 @@
 #include <libc.h>
 #include <draw.h>
 #include <thread.h>
-#include "fetch.h"
+#include "fetcher.h"
 #include "parser.h"
 #include "serve9p.h"
 
