@@ -1,9 +1,9 @@
-# Storage
+# Data Storage
 
-Gammera stores all persistent data in `$HOME/.gammera`. The directory structure is
-simple so it can be inspected or edited with basic tools.
+Gammera keeps its persistent data under `$HOME/.gammera`.
 
-- `history` – list of visited URLs, one per line.
-- `bookmarks` – user bookmarks in plain text.
+- `history` – visited URLs stored by the 9P server.
+- `bookmarks` – user bookmark entries written via the 9P `bookmarks` file.
 
-Additional cache files may be added in the future.
+These files are loaded when the browser starts and updated whenever
+new history or bookmark entries are recorded.

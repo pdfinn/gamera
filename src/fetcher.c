@@ -77,10 +77,20 @@ fetch_url(const char *url)
     fprint(fd, "GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n", u.path, u.host);
     Binit(&buf, fd, OREAD);
 
+    int inhdr;
+
     data = nil;
     len = 0;
+    inhdr = 1;
     while((line = Brdline(&buf, '\n')) != nil){
         int n = Blinelen(&buf);
+        if(inhdr){
+            if((n == 2 && line[0]=='\r' && line[1]=='\n') ||
+               (n == 1 && line[0]=='\n')){
+                inhdr = 0;
+            }
+            continue;
+        }
         data = realloc(data, len + n + 1);
         if(data == nil)
             break;

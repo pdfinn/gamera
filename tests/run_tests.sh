@@ -22,6 +22,11 @@ sleep 1
 
 ./fetch_url_test "http://127.0.0.1:$PORT/README.md" > /tmp/fetch.out
 kill $server_pid
+if grep -q '^HTTP/' /tmp/fetch.out; then
+  echo "fetch_url_test failed: headers present" >&2
+  cat /tmp/fetch.out >&2
+  exit 1
+fi
 if [ -s /tmp/fetch.out ]; then
   echo "fetch_url_test passed"
 else
