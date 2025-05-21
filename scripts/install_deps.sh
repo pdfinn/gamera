@@ -10,7 +10,7 @@ P9SRC="$P9DIR/src"
 
 # Check and install required system packages
 echo "Checking system packages..."
-REQUIRED_PKGS="gcc make git x11-utils libx11-dev libxt-dev libxext-dev libfontconfig1-dev libfreetype6-dev"
+REQUIRED_PKGS="gcc make git x11-utils libx11-dev libxt-dev libxext-dev libfontconfig1-dev libfreetype6-dev libssl-dev"
 MISSING_PKGS=$(dpkg-query -W -f='${binary:Package}\n' $REQUIRED_PKGS 2>/dev/null | sort | uniq | comm -23 <(echo "$REQUIRED_PKGS" | tr ' ' '\n' | sort) -)
 
 if [ -n "$MISSING_PKGS" ]; then

@@ -17,6 +17,11 @@ This will compile the sources under `src/` using the Plan 9 toolchain.
 For Linux or other Unix-like systems you can install plan9port and the
 required build tools using `scripts/install_deps.sh` before running `mk`.
 This script installs Plan9port and configures your PATH so the `mk` build tool is available.
+It also installs `libssl-dev` so that HTTPS support can be built. If you are
+on a native Plan 9 system, ensure the appropriate TLS library is installed
+(for example the 9front TLS tools).
+Note that the install script downloads packages from the network and may fail
+if your environment lacks internet access.
 
 ## Project Layout
 
