@@ -9,6 +9,20 @@
 static char *current;
 
 static void
+historyupdate(void)
+{
+    /* TODO: update history window */
+    USED(current);
+}
+
+static void
+tabsupdate(void)
+{
+    /* TODO: update tabs */
+    USED(current);
+}
+
+static void
 update(const char *html, const char *text)
 {
     USED(html);
@@ -57,7 +71,7 @@ threadmain(int argc, char *argv[])
     flushimage(display, 1);
 
     current = strdup(text);
-    startfs(data, text, update);
+    startfs(data, text, update, historyupdate, tabsupdate);
 
     free(data);
     free(text);
