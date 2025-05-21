@@ -16,3 +16,10 @@ This document lists upcoming tasks for building the browser.
    and store user bookmarks.
 
 The project is at an early stage. The first step is building the fetcher.
+
+## Tabs
+
+Writing a URL to `/mnt/gammera/tabctl` opens that address in a new tab. Each
+tab runs in its own thread and can be selected from a contextual menu like
+other Plan 9 programs. Switching tabs notifies the main window to redraw with
+the selected page contents.
