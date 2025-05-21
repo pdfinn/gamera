@@ -12,8 +12,8 @@ This document lists upcoming tasks for building the browser.
 6. **HTTPS Support** - Add TLS support so pages can be fetched over HTTPS.
 7. **Interactive UI** - Build on-screen controls such as an address bar and
    clickable links.
-8. **History & Bookmarks** - Provide simple mechanisms to track visited pages
-   and store user bookmarks.
+8. **History & Bookmarks** - **Done.** History and bookmark persistence is
+   complete.
 
 The project is at an early stage. The first step is building the fetcher.
 
