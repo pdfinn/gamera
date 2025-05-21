@@ -16,6 +16,21 @@ access.
 * **UI** – Provides a minimal interface using the Plan 9 window system.
   Each browser window is a separate process.
 
+## Plan 9 Philosophy
+
+Gammera follows several design principles borrowed from Plan 9:
+
+* **Simple file interfaces** – All communication happens over the 9P file
+  protocol so tools can interact with the browser using ordinary file
+  operations.
+* **One process per window** – Each window runs in its own process to keep
+  failure contained and allow the system to multiplex windows naturally.
+* **`mk` for builds** – The source tree is built using Plan 9's `mk`
+  instead of `make` which keeps the build descriptions minimal.
+* **Minimal global state** – Only the 9P server keeps shared state. The
+  rest of the code avoids globals so components remain easy to reason
+  about.
+
 ## File System Integration
 
 Plan 9 applications typically expose interfaces as file trees via 9P.
@@ -23,6 +38,19 @@ Gammera exposes its internal state via a single 9P service mounted at
 `/mnt/gammera`. Scripts can read `page.html` and `page.txt` or write a new
 URL to `ctl` to trigger navigation. This interface is the foundation for
 future features such as tabs, history, and bookmarks.
+
+## State Directory and External Scripts
+
+Persistent data lives under `$HOME/.gammera`:
+
+* `history` – a newline separated list of visited URLs.
+* `bookmarks` – entries written by the user or scripts.
+
+The 9P tree mounted at `/mnt/gammera` exposes files such as `page.html`,
+`page.txt`, `ctl`, `history`, `bookmarks` and `tabctl`.  External scripts
+may write a URL to `ctl` to load a page, append to `bookmarks`, or read the
+current page via `page.html` or `page.txt`.  This makes it easy to tie the
+browser into shell pipelines or other Plan 9 programs.
 
 ## Current State
 
