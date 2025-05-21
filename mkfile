@@ -1,9 +1,7 @@
 <$PLAN9/src/mkhdr
 
-TARG=gammera
-
-OFILES=main.$O fetcher.$O parser.$O serve9p.$O tabs.$O fs.$O
-
+OFILES=main.$O fetcher.$O parser.$O serve9p.$O
+# serve9p.$O provides the consolidated 9P interface
 
 $TARG: $OFILES
 	$LD -o $target $OFILES
