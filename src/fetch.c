@@ -42,7 +42,7 @@ fetch_url(const char* url)
         if(data)
             data[len] = '\0';
         close(p[0]);
-        wait(nil);
+        p9wait();
         return data;
     }
 }
