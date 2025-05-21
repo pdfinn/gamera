@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Install dependencies and configure plan9port for Debian/Ubuntu systems
 
 set -e
