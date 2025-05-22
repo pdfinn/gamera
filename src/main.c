@@ -21,7 +21,7 @@ historyupdate(void)
     char *buf;
     Dir *d;
 
-    fd = open("/mnt/gammera/history", OREAD);
+    fd = open("/mnt/gamera/history", OREAD);
     if(fd < 0)
         return;
     d = dirfstat(fd);
@@ -54,7 +54,7 @@ bookmarkupdate(const char *url)
     char *buf;
     Dir *d;
 
-    fd = open("/mnt/gammera/bookmarks", OREAD);
+    fd = open("/mnt/gamera/bookmarks", OREAD);
     if(fd < 0)
         return;
     d = dirfstat(fd);
@@ -111,7 +111,7 @@ navproc(void *)
 void
 usage(void)
 {
-    fprint(2, "usage: gammera [url]\n");
+    fprint(2, "usage: gamera [url]\n");
     threadexitsall("usage");
 }
 
@@ -135,7 +135,7 @@ threadmain(int argc, char *argv[])
     if(text == nil)
         text = strdup(data);
 
-    if(initdraw(nil, nil, "Gammera") < 0)
+    if(initdraw(nil, nil, "Gamera") < 0)
         sysfatal("initdraw failed: %r");
     mctl = initmouse(nil, screen);
     if(mctl == nil)

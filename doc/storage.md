@@ -1,6 +1,6 @@
 # Data Storage
 
-Gammera keeps its persistent data under `$HOME/.gammera`.
+Gamera keeps its persistent data under `$HOME/.gamera`.
 
 - `history` – visited URLs stored by the 9P server.
 - `bookmarks` – user bookmark entries written via the 9P `bookmarks` file.

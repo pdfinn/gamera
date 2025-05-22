@@ -32,7 +32,7 @@ fs_init(void)
     fs.read = fs_read;
     fs.tree = alloctree(nil, nil, DMDIR|0555, nil);
     pagefile = createfile(fs.tree->root, "page", nil, 0444, nil);
-    threadpostmountsrv(&fs, "gammera", nil, MREPL|MCREATE);
+    threadpostmountsrv(&fs, "gamera", nil, MREPL|MCREATE);
 }
 
 void

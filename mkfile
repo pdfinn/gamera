@@ -2,7 +2,7 @@
 
 
 # name of the resulting executable
-TARG=gammera
+TARG=gamera
 
 # object files for the build
 OFILES=main.$O fetcher.$O parser.$O serve9p.$O tabs.$O fs.$O

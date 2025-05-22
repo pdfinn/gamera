@@ -1,6 +1,6 @@
-# Gammera Design Notes
+# Gamera Design Notes
 
-Gammera aims to be a lightweight web browser that follows the Plan 9 way
+Gamera aims to be a lightweight web browser that follows the Plan 9 way
 of composing small programs. It uses Plan 9's `draw` and `thread`
 libraries and communicates over the `/net` file system for network
 access.
@@ -18,7 +18,7 @@ access.
 
 ## Plan 9 Philosophy
 
-Gammera follows several design principles borrowed from Plan 9:
+Gamera follows several design principles borrowed from Plan 9:
 
 * **Simple file interfaces** – All communication happens over the 9P file
   protocol so tools can interact with the browser using ordinary file
@@ -34,19 +34,19 @@ Gammera follows several design principles borrowed from Plan 9:
 ## File System Integration
 
 Plan 9 applications typically expose interfaces as file trees via 9P.
-Gammera exposes its internal state via a single 9P service mounted at
-`/mnt/gammera`. Scripts can read `page.html` and `page.txt` or write a new
+Gamera exposes its internal state via a single 9P service mounted at
+`/mnt/gamera`. Scripts can read `page.html` and `page.txt` or write a new
 URL to `ctl` to trigger navigation. This interface is the foundation for
 future features such as tabs, history, and bookmarks.
 
 ## State Directory and External Scripts
 
-Persistent data lives under `$HOME/.gammera`:
+Persistent data lives under `$HOME/.gamera`:
 
 * `history` – a newline separated list of visited URLs.
 * `bookmarks` – entries written by the user or scripts.
 
-The 9P tree mounted at `/mnt/gammera` exposes files such as `page.html`,
+The 9P tree mounted at `/mnt/gamera` exposes files such as `page.html`,
 `page.txt`, `ctl`, `history`, `bookmarks` and `tabctl`.  External scripts
 may write a URL to `ctl` to load a page, append to `bookmarks`, or read the
 current page via `page.html` or `page.txt`.  This makes it easy to tie the
@@ -54,7 +54,7 @@ browser into shell pipelines or other Plan 9 programs.
 
 ## Current State
 
-Gammera currently downloads a page using `hget`, strips HTML tags to
+Gamera currently downloads a page using `hget`, strips HTML tags to
 extract plain text, and displays the result in a window using `libdraw`.
 The 9P interface described above is implemented and can be used to fetch
 new pages. More advanced parsing and rendering remain to be implemented.
