@@ -1,4 +1,4 @@
-# Contributing Guidelines for Gammera
+# Contributing Guidelines for Gamera
 
 This project follows the Plan 9 design philosophy. Programs should be small and focused, communicate through well-defined interfaces (often files or pipes), and avoid unnecessary global state. Code should be easy to compose with other small tools.
 
@@ -26,4 +26,4 @@ tests/run_tests.sh
 
 Both commands expect a Plan 9 or plan9port environment. See `scripts/install_deps.sh` if you need to set up plan9port on a Unix system.
 
-Following these guidelines will help keep Gammera aligned with the Plan 9 way of writing simple, composable software.
+Following these guidelines will help keep Gamera aligned with the Plan 9 way of writing simple, composable software.

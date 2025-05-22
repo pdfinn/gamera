@@ -34,10 +34,10 @@ mkpath(const char *name)
     home = getenv("HOME");
     if(home == nil)
         return nil;
-    n = strlen(home) + strlen("/.gammera/") + strlen(name) + 1;
+    n = strlen(home) + strlen("/.gamera/") + strlen(name) + 1;
     path = malloc(n);
     if(path)
-        snprint(path, n, "%s/.gammera/%s", home, name);
+        snprint(path, n, "%s/.gamera/%s", home, name);
     return path;
 }
 
@@ -49,7 +49,7 @@ ensureconfdir(void)
     home = getenv("HOME");
     if(home == nil)
         return;
-    snprint(buf, sizeof buf, "%s/.gammera", home);
+    snprint(buf, sizeof buf, "%s/.gamera", home);
     mkdir(buf, 0755);
 }
 
@@ -241,5 +241,5 @@ startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb boo
     fs.read = fsread;
     fs.write = fswrite;
 
-    threadpostmountsrv(&fs, "gammerasrv", "/mnt/gammera", MREPL|MCREATE);
+    threadpostmountsrv(&fs, "gamerasrv", "/mnt/gamera", MREPL|MCREATE);
 }
