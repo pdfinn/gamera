@@ -1,19 +1,19 @@
 <div align="center">
-  <img src="Gammera_the_Invincible.png" alt="Gammera" width="400"/>
-  <h1>Gammera Web Browser</h1>
+  <img src="Gamera_the_Invincible.png" alt="Gamera" width="400"/>
+  <h1>Gamera Web Browser</h1>
   <p>
     <strong>To be a monster without being monsterous</strong>
   </p>
   <hr/>
 </div>
 
-Gammera is a web browser designed to work on Plan 9 from Bell Labs. This
+Gamera is a web browser designed to work on Plan 9 from Bell Labs. This
 repository contains the beginnings of an experimental implementation
 written in the Plan 9 style. It is **not** a complete browser yet.
 
 ## Coding Conventions
 
-Gammera follows the Plan 9 philosophy of composing small programs that
+Gamera follows the Plan 9 philosophy of composing small programs that
 cooperate through simple interfaces. Keep global state to a minimum and
 pass data explicitly between functions. Use the core Plan 9 libraries
 (`libc`, `libdraw`, `libthread`) to remain portable between native Plan 9
@@ -42,12 +42,12 @@ if your environment lacks internet access.
 
 - `src/` – C source code.
 - `doc/` – Design documentation and notes.
-- `$HOME/.gammera/` – history and bookmark storage. See
+- `$HOME/.Gamera/` – history and bookmark storage. See
   [doc/storage.md](doc/storage.md) for details.
 
 ## Status
 
-Gammera is still in an early stage, but a minimal program can fetch a
+Gamera is still in an early stage, but a minimal program can fetch a
 web page, strip basic HTML tags, render the text line by line, and
 expose the page contents via a small 9P file system. Pass a URL on the
 command line (or omit it to fetch `http://example.com/`).
@@ -55,7 +55,7 @@ See `doc/roadmap.md` for planned tasks.
 
 ## 9P Interface
 
-When running, Gammera mounts a single 9P service at `/mnt/gammera`.
+When running, Gamera mounts a single 9P service at `/mnt/Gamera`.
 The following files are available:
 
 * `page.html` – raw HTML of the current page.
@@ -65,8 +65,8 @@ The following files are available:
 Example usage:
 
 ```sh
-$ cat /mnt/gammera/page.txt
-$ echo 'http://example.net/' > /mnt/gammera/ctl
+$ cat /mnt/Gamera/page.txt
+$ echo 'http://example.net/' > /mnt/Gamera/ctl
 ```
 
 ## UI Controls
