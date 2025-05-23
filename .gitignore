@@ -1,6 +1,30 @@
-fetcher.o
+# Build artifacts
+*.o
+*.a
+gammera
 gamera
-main.o
-parser.o
+
+# Plan9 specific
 plan9port/
-serve9p.o
+*.[$OS]
+
+# Local configuration
+.gammera/
+
+# System files
+.DS_Store
+._.DS_Store
+*.swp
+*~
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Directories created during build
+/bin/
+/pkg/
