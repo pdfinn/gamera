@@ -1,6 +1,6 @@
 <$PLAN9/src/mkhdr
 
-TARG=parser_test parseurl_test fetch_url_test
+TARG=parser_test parseurl_test fetch_url_test html_test
 
 # source file providing fetch_url implementation
 FETCHER_SRC=../src/fetcher.c
@@ -29,5 +29,14 @@ fetch_url_test.$O: fetch_url_test.c ../src/fetcher.h
 fetcher.$O: $FETCHER_SRC ../src/fetcher.h
     $CC -I../src -c -o $target $FETCHER_SRC
 
+html_test: html_test.$O html.$O
+    $LD -o $target html_test.$O html.$O
+
+html_test.$O: html_test.c ../src/html.h
+    $CC -I../src -c -o $target html_test.c
+
+html.$O: ../src/html.c ../src/html.h
+    $CC -I../src -c -o $target ../src/html.c
+
 clean:V:
-    rm -f *.[$OS] $TARG parser.$O fetcher.$O
+    rm -f *.[$OS] $TARG parser.$O fetcher.$O html.$O
