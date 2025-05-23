@@ -17,7 +17,7 @@ MKFLAGS=""
 if [ -n "$OFFLINE" ]; then
   MKFLAGS="FETCHER_SRC=mock_fetcher.c"
 fi
-mk $MKFLAGS parser_test parseurl_test fetch_url_test >/tmp/test_build.log && tail -n 20 /tmp/test_build.log
+mk $MKFLAGS parser_test parseurl_test fetch_url_test html_test >/tmp/test_build.log && tail -n 20 /tmp/test_build.log
 
 # run parser_test
 ./parser_test > /tmp/parser_test.out
@@ -59,6 +59,15 @@ if grep -q '^ok' /tmp/parseurl.out; then
 else
   echo "parseurl_test failed" >&2
   cat /tmp/parseurl.out >&2
+  exit 1
+fi
+
+./html_test > /tmp/html.out
+if grep -q '^ok' /tmp/html.out; then
+  echo "html_test passed"
+else
+  echo "html_test failed" >&2
+  cat /tmp/html.out >&2
   exit 1
 fi
 
