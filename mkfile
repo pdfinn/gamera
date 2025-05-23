@@ -1,5 +1,8 @@
 <$PLAN9/src/mkhdr
 
+LIB=\
+	-lhtml\
+	-l9\
 
 # name of the resulting executable
 TARG=gamera
@@ -9,7 +12,7 @@ OFILES=main.$O fetcher.$O parser.$O html.$O render.$O font.$O serve9p.$O tabs.$O
 # serve9p.$O provides the consolidated 9P interface
 
 $TARG: $OFILES
-	$LD -o $target $OFILES
+	$LD -o $target $OFILES $LIB
 
 all:V: $TARG
 

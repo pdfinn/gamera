@@ -11,6 +11,7 @@
 #include "serve9p.h"
 #include "tabs.h"
 #include "font.h"
+#include "html.h"
 
 static char *current;
 static char *historybuf;
@@ -103,14 +104,26 @@ bookmarkupdate(const char *url)
 static void
 update(const char *html, const char *text)
 {
+    HtmlDoc *doc = nil;
+    
     if(!text) text = "";
     
     /* Update current content */
     if(current) free(current);
     current = strdup(text);
     
-    /* Render content */
-    render_text(text);
+    /* Try to parse HTML first if we have HTML content */
+    if(html && html[0]){
+        doc = html_parse(html);
+    }
+    
+    /* Render content - use parsed HTML if available, otherwise plain text */
+    if(doc && doc->items){
+        render_items(doc->items);
+        html_free(doc);
+    } else {
+        render_text(text);
+    }
 }
 
 static void

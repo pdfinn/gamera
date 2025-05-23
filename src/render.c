@@ -57,12 +57,39 @@ void
 render_items(Item *it)
 {
     Point p = Pt(screen->r.min.x+10, screen->r.min.y+10);
+    Font *currentfont;
+    int lineheight;
+    
+    /* Get current font or fall back to system font */
+    currentfont = font_get_current();
+    if(currentfont == nil)
+        currentfont = font;
+    
+    lineheight = currentfont->height;
+    
+    /* Clear the screen first */
+    draw(screen, screen->r, display->white, nil, ZP);
+    
+    /* Process each HTML item */
     for(; it; it = it->next){
         if(it->tag != Itexttag)
             continue;
         Itext *t = (Itext*)it;
-        runestring(screen, p, display->black, ZP, font, t->s);
-        p.x += runestringwidth(font, t->s);
+        
+        /* Skip items with no text */
+        if(!t->s)
+            continue;
+            
+        /* Check if we have room for another line */
+        if(p.y > screen->r.max.y - lineheight)
+            break;
+            
+        /* Render the text */
+        runestring(screen, p, display->black, ZP, currentfont, t->s);
+        
+        /* Move to next line for each text item */
+        p.x = screen->r.min.x + 10;  /* Reset to left margin */
+        p.y += lineheight;
     }
     flushimage(display, 1);
 }
