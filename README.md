@@ -35,6 +35,9 @@ This script installs Plan9port and configures your PATH so the `mk` build tool i
 It also installs `libssl-dev` so that HTTPS support can be built. If you are
 on a native Plan 9 system, ensure the appropriate TLS library is installed
 (for example the 9front TLS tools).
+Parsing relies on Plan 9's `libhtml`. The wrapper implementation in
+`src/html.c` requires `libhtml` and its dependencies to be present in your
+Plan 9 or plan9port environment.
 Optional features are toggled at build time. Set `TLS=1` to enable
 HTTPS fetching and `JS=1` to include the experimental JavaScript
 interpreter:
@@ -61,7 +64,8 @@ expose the page contents via a small 9P file system. Pass a URL on the
 command line (or omit it to fetch `http://example.com/`).
 Only a small subset of HTML is handled.  When built with `libhtml`
 paragraphs, headings and links are displayed; otherwise tags are stripped
-leaving plain text.
+leaving plain text. DOM parsing is implemented in `src/html.c`, which
+wraps Plan 9's `libhtml` library.
 See `doc/roadmap.md` for planned tasks.
 
 ## 9P Interface
