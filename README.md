@@ -42,6 +42,7 @@ interpreter:
 ```sh
 TLS=1 JS=1 mk all
 ```
+
 Note that the install script downloads packages from the network and may fail
 if your environment lacks internet access.
 
