@@ -58,3 +58,16 @@ Gamera currently downloads a page using `hget`, strips HTML tags to
 extract plain text, and displays the result in a window using `libdraw`.
 The 9P interface described above is implemented and can be used to fetch
 new pages. More advanced parsing and rendering remain to be implemented.
+
+## Rendering with libhtml
+
+The renderer is intentionally small.  When built with Plan 9's `libhtml`
+it can layout a subset of HTML elements such as paragraphs, headings and
+links.  Without `libhtml` the program falls back to the simple text
+extraction described above.  The goal is to keep the core code minimal
+while allowing improved rendering when the optional library is present.
+
+Future work includes optional JavaScript support through a small
+interpreter and the ability to fetch pages over HTTPS using the system
+TLS library.  Both features are planned as compile time options so a
+plain build remains lightweight.
