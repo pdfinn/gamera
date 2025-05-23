@@ -35,6 +35,13 @@ This script installs Plan9port and configures your PATH so the `mk` build tool i
 It also installs `libssl-dev` so that HTTPS support can be built. If you are
 on a native Plan 9 system, ensure the appropriate TLS library is installed
 (for example the 9front TLS tools).
+Optional features are toggled at build time. Set `TLS=1` to enable
+HTTPS fetching and `JS=1` to include the experimental JavaScript
+interpreter:
+
+```sh
+TLS=1 JS=1 mk all
+```
 Note that the install script downloads packages from the network and may fail
 if your environment lacks internet access.
 
@@ -51,6 +58,9 @@ Gamera is still in an early stage, but a minimal program can fetch a
 web page, strip basic HTML tags, render the text line by line, and
 expose the page contents via a small 9P file system. Pass a URL on the
 command line (or omit it to fetch `http://example.com/`).
+Only a small subset of HTML is handled.  When built with `libhtml`
+paragraphs, headings and links are displayed; otherwise tags are stripped
+leaving plain text.
 See `doc/roadmap.md` for planned tasks.
 
 ## 9P Interface

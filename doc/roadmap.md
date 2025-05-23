@@ -23,3 +23,9 @@ Writing a URL to `/mnt/gamera/tabctl` opens that address in a new tab. Each
 tab runs in its own thread and can be selected from a contextual menu like
 other Plan 9 programs. Switching tabs notifies the main window to redraw with
 the selected page contents.
+
+## Tests and Scripts
+
+Unit tests live in the `tests/` directory and are built with Plan 9 `mk`.
+Run `tests/run_tests.sh` to compile and execute them. Helper scripts such
+as `scripts/install_deps.sh` install plan9port and optional TLS support.
