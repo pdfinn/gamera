@@ -9,7 +9,7 @@ void
 render_text(const char *text)
 {
     Point p = Pt(screen->r.min.x+10, screen->r.min.y+10);
-    char *copy = strdup(text ? text : "");
+    char *copy = strdup((char*)(text ? text : ""));
     char *line, *next;
     Font *currentfont;
 
@@ -61,8 +61,8 @@ render_items(Item *it)
         if(it->tag != Itexttag)
             continue;
         Itext *t = (Itext*)it;
-        drawstring(screen, p, display->black, ZP, font, t->s);
-        p.x += stringwidth(font, t->s);
+        runestring(screen, p, display->black, ZP, font, t->s);
+        p.x += runestringwidth(font, t->s);
     }
     flushimage(display, 1);
 }
