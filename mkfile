@@ -5,13 +5,15 @@
 TARG=gamera
 
 # object files for the build
-OFILES=main.$O fetcher.$O parser.$O serve9p.$O tabs.$O fs.$O
+OFILES=main.$O fetcher.$O parser.$O render.$O font.$O serve9p.$O tabs.$O fs.$O
 # serve9p.$O provides the consolidated 9P interface
 
 $TARG: $OFILES
 	$LD -o $target $OFILES
 
-main.$O: src/main.c src/fetcher.h src/parser.h src/serve9p.h src/tabs.h
+all:V: $TARG
+
+main.$O: src/main.c src/fetcher.h src/parser.h src/render.h src/font.h src/serve9p.h src/tabs.h
         $CC -c -o $target src/main.c
 
 fetcher.$O: src/fetcher.c src/fetcher.h
@@ -19,6 +21,12 @@ fetcher.$O: src/fetcher.c src/fetcher.h
 
 parser.$O: src/parser.c src/parser.h
 	$CC -c -o $target src/parser.c
+
+render.$O: src/render.c src/render.h src/font.h
+        $CC -c -o $target src/render.c
+
+font.$O: src/font.c src/font.h
+        $CC -c -o $target src/font.c
 
 serve9p.$O: src/serve9p.c src/serve9p.h src/fetcher.h src/parser.h
         $CC -c -o $target src/serve9p.c

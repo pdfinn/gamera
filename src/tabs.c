@@ -89,3 +89,24 @@ tabs_count(void)
     unlock(&tablock);
     return n;
 }
+
+char*
+tabs_geturl(int index)
+{
+    char *url = nil;
+    lock(&tablock);
+    if(index >= 0 && index < ntabs)
+        url = strdup(tabs[index].url);
+    unlock(&tablock);
+    return url;
+}
+
+int
+tabs_current(void)
+{
+    int c;
+    lock(&tablock);
+    c = current;
+    unlock(&tablock);
+    return c;
+}

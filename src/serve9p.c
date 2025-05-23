@@ -241,5 +241,8 @@ startfs(const char *html, const char *text, UpdateCb cb, NotifyCb hcb, TabCb boo
     fs.read = fsread;
     fs.write = fswrite;
 
+    /* Try to mount 9P filesystem, but don't fail if it doesn't work */
+    fprint(2, "Starting 9P filesystem...\n");
     threadpostmountsrv(&fs, "gamerasrv", "/mnt/gamera", MREPL|MCREATE);
+    fprint(2, "9P filesystem service started\n");
 }
