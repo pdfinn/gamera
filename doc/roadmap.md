@@ -16,6 +16,8 @@ This document lists upcoming tasks for building the browser.
    implemented with contextual menus, keyboard shortcuts, and font switching.
 8. **History & Bookmarks** - **Done.** History and bookmark persistence is
    complete.
+9. **Enhanced HTML Parsing** - **Done.** Improved HTML parser with better 
+   support for paragraphs, headings, and links.
 
 ## Current Implementation
 
@@ -49,6 +51,15 @@ Dynamic font switching system:
 - **Monospace Font**: Fixed-width font for code and structured text
 - **Runtime Switching**: Change fonts on-the-fly with keyboard shortcuts
 - **Persistent Per-Tab**: Font choice maintained across tab switches
+
+### Enhanced HTML Processing
+
+Improved HTML parsing and rendering capabilities:
+
+- **Better Tag Handling**: Enhanced support for paragraphs, headings, and links
+- **Text Formatting**: Proper spacing and layout for different HTML elements
+- **Link Extraction**: Automatically finds all `<a href="...">` links on pages
+- **Clean Rendering**: Better text display with appropriate formatting
 
 ### Link Navigation
 
@@ -115,3 +126,7 @@ Run the comprehensive demo:
 
 This showcases all implemented features including tab management, keyboard shortcuts,
 font switching, link navigation, and 9P interface integration.
+
+Unit tests live in the `tests/` directory and are built with Plan 9 `mk`.
+Run `tests/run_tests.sh` to compile and execute them. Helper scripts such
+as `scripts/install_deps.sh` install plan9port and optional TLS support.

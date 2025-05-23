@@ -35,6 +35,14 @@ This script installs Plan9port and configures your PATH so the `mk` build tool i
 It also installs `libssl-dev` so that HTTPS support can be built. If you are
 on a native Plan 9 system, ensure the appropriate TLS library is installed
 (for example the 9front TLS tools).
+Optional features are toggled at build time. Set `TLS=1` to enable
+HTTPS fetching and `JS=1` to include the experimental JavaScript
+interpreter:
+
+```sh
+TLS=1 JS=1 mk all
+```
+
 Note that the install script downloads packages from the network and may fail
 if your environment lacks internet access.
 
@@ -49,8 +57,8 @@ if your environment lacks internet access.
 
 Gamera now includes comprehensive Plan 9-style window management with contextual menus for 
 tabs, history, bookmarks, and links. The browser features dynamic font switching, keyboard 
-shortcuts, and full 9P filesystem integration for scriptable control.
-Pass a URL on the command line (or omit it to fetch `http://example.com/`).
+shortcuts, full 9P filesystem integration for scriptable control, and enhanced HTML parsing 
+capabilities. Pass a URL on the command line (or omit it to fetch `http://example.com/`).
 See `doc/roadmap.md` for completed and planned tasks.
 
 ## Features
@@ -61,6 +69,11 @@ See `doc/roadmap.md` for completed and planned tasks.
 - **Smart Tab Management**: Display actual URLs/hostnames in tab menu
 - **Font Switching**: Runtime switching between regular and monospace fonts
 - **Link Navigation**: Extract and follow links via contextual menu
+
+### Enhanced HTML Support
+- **Improved Parser**: Better handling of paragraphs, headings and links
+- **Text Rendering**: Clean display of formatted text with proper spacing
+- **Tag Processing**: Support for basic HTML structure elements
 
 ### Scriptable Design
 - **9P Filesystem**: Complete browser control via file operations
