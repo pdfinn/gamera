@@ -4,6 +4,12 @@
 gammera
 gamera
 
+# Test binaries
+tests/fetch_url_test
+tests/html_test
+tests/parser_test
+tests/parseurl_test
+
 # Plan9 specific
 plan9port/
 *.[$OS]
