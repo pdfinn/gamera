@@ -126,6 +126,72 @@ update(const char *html, const char *text)
     }
 }
 
+/*
+ * Simple URL input - reads URL from user via keyboard.
+ * Returns 1 if URL was entered, 0 if cancelled.
+ */
+static int
+enterurl(char *buf, int nbuf)
+{
+    Rune r;
+    int n;
+    Point p;
+    char prompt[] = "URL: ";
+
+    /* Clear buffer */
+    memset(buf, 0, nbuf);
+    n = 0;
+
+    /* Draw prompt */
+    draw(screen, screen->r, display->white, nil, ZP);
+    p = Pt(screen->r.min.x + 10, screen->r.min.y + 40);
+    string(screen, p, display->black, ZP, font, prompt);
+    p.x += stringwidth(font, prompt);
+    flushimage(display, 1);
+
+    /* Read keyboard input */
+    for(;;){
+        if(recv(kctl->c, &r) < 0)
+            return 0;
+
+        if(r == '\n' || r == Keof){
+            /* Enter pressed - return URL */
+            buf[n] = 0;
+            return n > 0 ? 1 : 0;
+        }
+        else if(r == 0x03 || r == Kesc){
+            /* Ctrl-C or ESC - cancel */
+            return 0;
+        }
+        else if(r == Kbs || r == Kdel){
+            /* Backspace */
+            if(n > 0){
+                n--;
+                buf[n] = 0;
+                /* Redraw */
+                draw(screen, screen->r, display->white, nil, ZP);
+                string(screen, Pt(screen->r.min.x + 10, screen->r.min.y + 40),
+                       display->black, ZP, font, prompt);
+                string(screen, Pt(screen->r.min.x + 10 + stringwidth(font, prompt),
+                       screen->r.min.y + 40), display->black, ZP, font, buf);
+                flushimage(display, 1);
+            }
+        }
+        else if(r >= 32 && r < 127 && n < nbuf - 1){
+            /* Printable ASCII character */
+            buf[n++] = r;
+            buf[n] = 0;
+            /* Redraw */
+            draw(screen, screen->r, display->white, nil, ZP);
+            string(screen, Pt(screen->r.min.x + 10, screen->r.min.y + 40),
+                   display->black, ZP, font, prompt);
+            string(screen, Pt(screen->r.min.x + 10 + stringwidth(font, prompt),
+                   screen->r.min.y + 40), display->black, ZP, font, buf);
+            flushimage(display, 1);
+        }
+    }
+}
+
 static void
 navproc(void *arg)
 {
@@ -137,12 +203,21 @@ navproc(void *arg)
     for(;;){
         readmouse(mctl);
         m = mctl->m;
-        
-        /* Button 1: Simple URL input when clicking in empty space */
+
+        /* Button 1: URL input when clicking in top area */
         if((m.buttons & 1) && m.xy.y < screen->r.min.y + 100){
-            /* For now, just open a new tab with example.com */
-            /* TODO: Implement proper URL input dialog */
-            tabs_new("http://example.com/");
+            if(enterurl(url, sizeof url) && url[0]){
+                /* Add http:// prefix if no protocol specified */
+                if(strncmp(url, "http://", 7) != 0 && strncmp(url, "https://", 8) != 0){
+                    char fullurl[256];
+                    snprint(fullurl, sizeof fullurl, "http://%s", url);
+                    tabs_new(fullurl);
+                } else {
+                    tabs_new(url);
+                }
+            }
+            /* Restore current page display */
+            update(current, current);
         }
         
         /* Button 2: Tab menu */
