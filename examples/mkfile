@@ -1,0 +1,55 @@
+<$PLAN9/src/mkhdr
+
+LIB=\
+	-lhtml\
+	-lthread\
+	-l9\
+
+TARG=render_styled_page
+
+# Source directories
+SRC=../src
+
+# Object files needed
+COMMON_OBJS=\
+	fetcher.$O\
+	builder.$O\
+	css.$O\
+	color.$O\
+	layout.$O\
+	boxrender.$O\
+	image.$O\
+	html.$O\
+
+render_styled_page: render_styled_page.$O $COMMON_OBJS
+	$LD -o $target render_styled_page.$O $COMMON_OBJS $LIB
+
+render_styled_page.$O: render_styled_page.c
+	$CC -I$SRC -c -o $target render_styled_page.c
+
+fetcher.$O: $SRC/fetcher.c $SRC/fetcher.h
+	$CC -I$SRC -c -o $target $SRC/fetcher.c
+
+builder.$O: $SRC/builder.c $SRC/builder.h
+	$CC -I$SRC -c -o $target $SRC/builder.c
+
+css.$O: $SRC/css.c $SRC/css.h
+	$CC -I$SRC -c -o $target $SRC/css.c
+
+color.$O: $SRC/color.c $SRC/color.h
+	$CC -I$SRC -c -o $target $SRC/color.c
+
+layout.$O: $SRC/layout.c $SRC/layout.h
+	$CC -I$SRC -c -o $target $SRC/layout.c
+
+boxrender.$O: $SRC/boxrender.c $SRC/boxrender.h
+	$CC -I$SRC -c -o $target $SRC/boxrender.c
+
+image.$O: $SRC/image.c $SRC/image.h
+	$CC -I$SRC -c -o $target $SRC/image.c
+
+html.$O: $SRC/html.c $SRC/html.h
+	$CC -I$SRC -c -o $target $SRC/html.c
+
+clean:V:
+	rm -f *.[$OS] $TARG $COMMON_OBJS
