@@ -12,8 +12,10 @@
 #include "tabs.h"
 #include "font.h"
 #include "html.h"
+#include "js.h"
 
 static char *current;
+static JSContext *jsctx;
 static char *historybuf;
 static char *bookmarkbuf;
 static Mousectl *mctl;
@@ -105,18 +107,28 @@ static void
 update(const char *html, const char *text)
 {
     HtmlDoc *doc = nil;
-    
+    Script *scripts, *s;
+
     if(!text) text = "";
-    
+
     /* Update current content */
     if(current) free(current);
     current = strdup(text);
-    
+
+    /* Extract and execute JavaScript if present */
+    if(html && html[0] && jsctx){
+        scripts = extract_scripts(html);
+        for(s = scripts; s; s = s->next){
+            js_exec_script(jsctx, s->code);
+        }
+        free_scripts(scripts);
+    }
+
     /* Try to parse HTML first if we have HTML content */
     if(html && html[0]){
         doc = html_parse(html);
     }
-    
+
     /* Render content - use parsed HTML if available, otherwise plain text */
     if(doc && doc->items){
         render_items(doc->items);
@@ -298,6 +310,7 @@ keyproc(void *arg)
         case 'Q':
         case 0x04: /* Ctrl-D */
             font_cleanup();
+            js_cleanup(jsctx);
             threadexitsall(nil);
             break;
         case 'm':
@@ -359,7 +372,12 @@ threadmain(int argc, char *argv[])
     /* Initialize font system */
     if(font_init() < 0)
         sysfatal("font_init failed: %r");
-    
+
+    /* Initialize JavaScript engine */
+    jsctx = js_init();
+    if(jsctx == nil)
+        fprint(2, "warning: JavaScript engine init failed\n");
+
     historybuf = strdup("");
     bookmarkbuf = strdup("");
 

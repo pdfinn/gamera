@@ -248,12 +248,93 @@ void
 free_links(Link *links)
 {
     Link *next;
-    
+
     while(links){
         next = links->next;
         free(links->url);
         free(links->text);
         free(links);
         links = next;
+    }
+}
+
+/*
+ * extract_scripts finds <script> tags and extracts JavaScript code
+ * Returns a linked list of Script structures
+ */
+Script*
+extract_scripts(const char *html)
+{
+    Script *head = nil, *tail = nil, *script;
+    const char *p, *code_start, *code_end;
+    char *code;
+
+    if(html == nil)
+        return nil;
+
+    p = html;
+    while(*p){
+        /* Look for opening script tag */
+        if(strncmp(p, "<script", 7) == 0){
+            /* Skip to end of opening tag */
+            while(*p && *p != '>')
+                p++;
+            if(*p == '>')
+                p++;
+
+            code_start = p;
+
+            /* Find closing script tag */
+            while(*p && strncmp(p, "</script>", 9) != 0)
+                p++;
+
+            code_end = p;
+
+            /* Extract script content */
+            if(code_start && code_end > code_start){
+                code = malloc(code_end - code_start + 1);
+                if(code){
+                    memmove(code, code_start, code_end - code_start);
+                    code[code_end - code_start] = 0;
+
+                    script = malloc(sizeof(Script));
+                    if(script){
+                        script->code = code;
+                        script->next = nil;
+
+                        if(tail)
+                            tail->next = script;
+                        else
+                            head = script;
+                        tail = script;
+                    }
+                }
+            }
+
+            /* Skip closing tag */
+            if(strncmp(p, "</script>", 9) == 0)
+                p += 9;
+        }
+        else {
+            p++;
+        }
+    }
+
+    return head;
+}
+
+/*
+ * free_scripts frees a linked list of Script structures
+ */
+void
+free_scripts(Script *scripts)
+{
+    Script *next;
+
+    while(scripts){
+        next = scripts->next;
+        free(scripts->code);
+        free(scripts);
+        scripts = next;
     }
 }

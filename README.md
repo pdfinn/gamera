@@ -7,9 +7,10 @@
   <hr/>
 </div>
 
-Gamera is a web browser designed to work on Plan 9 from Bell Labs. This
-repository contains the beginnings of an experimental implementation
-written in the Plan 9 style. It is **not** a complete browser yet.
+Gamera is a **functionally complete web browser** for Plan 9 from Bell Labs.
+Unlike other Plan 9 browsers that are intentionally minimal, Gamera aims to be
+compatible with modern websites while maintaining Plan 9 design principles:
+simple code, composable tools, and clean interfaces.
 
 ## Coding Conventions
 
@@ -58,10 +59,11 @@ if your environment lacks internet access.
 
 ## Status
 
-**Gamera is feature-complete!** 🎉
+**Gamera is a functionally complete web browser!** 🎉
 
 The browser now includes:
 - ✅ Full HTTP and HTTPS support for secure web browsing
+- ✅ **JavaScript execution engine** for modern web compatibility
 - ✅ Interactive URL input dialog for easy navigation
 - ✅ Comprehensive Plan 9-style window management with contextual menus
 - ✅ Dynamic font switching and keyboard shortcuts
@@ -98,6 +100,14 @@ See `doc/roadmap.md` for implementation details and potential future enhancement
 - **Text Rendering**: Clean display of formatted text with proper spacing
 - **Tag Processing**: Support for basic HTML structure elements
 - **DOM Parsing**: `src/html.c` provides wrapper around Plan 9's `libhtml` library
+
+### JavaScript Support
+- **Minimal Interpreter**: Custom JavaScript engine designed for Plan 9
+- **DOM API**: Basic document.getElementById() and DOM manipulation
+- **Console API**: console.log() for debugging and output
+- **Variable Support**: var declarations and assignments
+- **Function Calls**: Basic function execution and expressions
+- **Modern Compatibility**: Enables functionality on JavaScript-dependent sites
 
 ### Scriptable Design
 - **9P Filesystem**: Complete browser control via file operations

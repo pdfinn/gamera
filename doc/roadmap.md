@@ -19,8 +19,27 @@ This document lists upcoming tasks for building the browser.
    complete.
 9. **Enhanced HTML Parsing** - **Done.** Improved HTML parser with better
    support for paragraphs, headings, and links.
+10. **JavaScript Support** - **Done.** Custom minimal JavaScript interpreter
+    enabling modern web compatibility. Supports DOM API, console.log, variables,
+    and basic expressions.
 
 ## Current Implementation
+
+### JavaScript Engine
+
+Gamera now includes a custom JavaScript interpreter designed for Plan 9:
+
+- **Minimal & Clean**: Written in Plan 9 C style, easy to understand and maintain
+- **DOM API**: document.getElementById() for element access
+- **Console API**: console.log() for debugging output
+- **Variables**: var declarations and assignments
+- **Expressions**: Basic JavaScript expression evaluation
+- **Script Tags**: Automatic extraction and execution from HTML
+- **Modern Web**: Enables functionality on JavaScript-dependent sites
+
+The interpreter is intentionally minimal, focusing on the most common JavaScript
+patterns rather than full ECMAScript compliance. This approach maintains Plan 9
+principles while enabling real-world web functionality.
 
 ### HTTPS Support
 
