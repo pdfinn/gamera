@@ -8,27 +8,56 @@ This document lists upcoming tasks for building the browser.
 4. **9P Interface** - **Done.** The 9P file system exposes the current page
    via `page.html` and `page.txt` and accepts URLs written to `ctl` to trigger
    a new fetch and redraw.
-5. **Window Management** - **Done.** Support for multiple tabs/windows using 
+5. **Window Management** - **Done.** Support for multiple tabs/windows using
    `libthread` with Plan 9-style contextual menus. Tab management via button 2
    (middle click), navigation menu via button 3 (right click).
-6. **HTTPS Support** - Add TLS support so pages can be fetched over HTTPS.
-7. **Interactive UI** - **Mostly Complete.** Plan 9-style mouse interactions 
-   implemented with contextual menus, keyboard shortcuts, and font switching.
+6. **HTTPS Support** - **Done.** TLS support implemented using external tools
+   (curl/wget) for HTTPS fetching. Both HTTP and HTTPS URLs are now fully supported.
+7. **Interactive UI** - **Done.** Complete Plan 9-style UI with mouse interactions,
+   contextual menus, keyboard shortcuts, font switching, and URL input dialog.
 8. **History & Bookmarks** - **Done.** History and bookmark persistence is
    complete.
-9. **Enhanced HTML Parsing** - **Done.** Improved HTML parser with better 
+9. **Enhanced HTML Parsing** - **Done.** Improved HTML parser with better
    support for paragraphs, headings, and links.
+10. **JavaScript Support** - **Done.** Custom minimal JavaScript interpreter
+    enabling modern web compatibility. Supports DOM API, console.log, variables,
+    and basic expressions.
 
 ## Current Implementation
+
+### JavaScript Engine
+
+Gamera now includes a custom JavaScript interpreter designed for Plan 9:
+
+- **Minimal & Clean**: Written in Plan 9 C style, easy to understand and maintain
+- **DOM API**: document.getElementById() for element access
+- **Console API**: console.log() for debugging output
+- **Variables**: var declarations and assignments
+- **Expressions**: Basic JavaScript expression evaluation
+- **Script Tags**: Automatic extraction and execution from HTML
+- **Modern Web**: Enables functionality on JavaScript-dependent sites
+
+The interpreter is intentionally minimal, focusing on the most common JavaScript
+patterns rather than full ECMAScript compliance. This approach maintains Plan 9
+principles while enabling real-world web functionality.
+
+### HTTPS Support
+
+Full HTTPS support implemented:
+
+- **Dual Protocol**: Handles both HTTP and HTTPS URLs seamlessly
+- **External Tools**: Uses curl or wget for HTTPS fetching (Plan 9 philosophy)
+- **Port Detection**: Automatic port selection (80 for HTTP, 443 for HTTPS)
+- **Secure Browsing**: Access encrypted websites with full TLS support
 
 ### Plan 9-Style Tab Management
 
 The browser now implements comprehensive Plan 9-style window management:
 
 - **Contextual Menus**: Right-click (button 3) shows History/Bookmarks/Links menu
-- **Tab Menu**: Middle-click (button 2) shows tab list and "New Tab" option  
+- **Tab Menu**: Middle-click (button 2) shows tab list and "New Tab" option
 - **Tab Switching**: Select any tab from the tab menu to switch to it
-- **New Tabs**: Use tab menu, write to `/mnt/gamera/tabctl`, or press 't' key
+- **New Tabs**: Use tab menu, write to `/mnt/gamera/tabctl`, press 't' key, or use URL dialog
 - **Visual Feedback**: Current tab number displayed when multiple tabs open
 - **Smart Tab Names**: Tab menu shows actual URLs/hostnames for easy identification
 
@@ -37,11 +66,22 @@ The browser now implements comprehensive Plan 9-style window management:
 Comprehensive keyboard support following Plan 9 conventions:
 
 - **t/T**: Create new tab
-- **n/N**: Next tab  
+- **n/N**: Next tab
 - **p/P**: Previous tab
 - **m/M**: Switch to monospace font
 - **f/F**: Switch to regular font
 - **q/Q**: Quit browser
+
+### URL Input Dialog
+
+Interactive URL entry system:
+
+- **Click Button 1**: Click in top area to activate URL input
+- **Type URL**: Enter any HTTP or HTTPS URL (http:// prefix optional)
+- **Enter**: Navigate to the entered URL in a new tab
+- **ESC/Ctrl-C**: Cancel URL input
+- **Backspace**: Edit typed URL
+- **Live Display**: Visual feedback as you type
 
 ### Font Management
 
@@ -108,13 +148,26 @@ The implementation follows Plan 9 design principles:
 - **Thread Safety**: Proper locking around shared data structures
 - **Simple Control Flow**: No recursion, minimal nested conditions
 
-## Next Steps
+## Core Features - Complete!
 
-1. **HTTPS Support** - Integrate TLS for secure connections
-2. **Enhanced Rendering** - Better text layout, handle more HTML elements
-3. **Configuration System** - User preferences via 9P interface  
-4. **Performance Optimization** - Faster parsing and rendering
-5. **Extended 9P Interface** - More browser state exposed via filesystem
+All major features have been implemented:
+- ✅ HTTP and HTTPS support
+- ✅ HTML parsing with libhtml
+- ✅ Plan 9-style UI with URL input dialog
+- ✅ Tab management and window system
+- ✅ 9P filesystem interface
+- ✅ History and bookmarks
+- ✅ Keyboard shortcuts and font switching
+
+## Future Enhancements
+
+While the core browser is complete, potential future improvements include:
+
+1. **Enhanced Rendering** - Better text layout, handle more HTML elements (tables, forms)
+2. **Configuration System** - User preferences via 9P interface
+3. **Performance Optimization** - Faster parsing and rendering for large pages
+4. **Extended 9P Interface** - More browser state exposed via filesystem
+5. **CSS Support** - Basic stylesheet parsing and rendering
 
 ## Testing
 

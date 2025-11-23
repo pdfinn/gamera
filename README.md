@@ -7,9 +7,10 @@
   <hr/>
 </div>
 
-Gamera is a web browser designed to work on Plan 9 from Bell Labs. This
-repository contains the beginnings of an experimental implementation
-written in the Plan 9 style. It is **not** a complete browser yet.
+Gamera is a **functionally complete web browser** for Plan 9 from Bell Labs.
+Unlike other Plan 9 browsers that are intentionally minimal, Gamera aims to be
+compatible with modern websites while maintaining Plan 9 design principles:
+simple code, composable tools, and clean interfaces.
 
 ## Coding Conventions
 
@@ -58,32 +59,55 @@ if your environment lacks internet access.
 
 ## Status
 
-Gamera now includes comprehensive Plan 9-style window management with contextual menus for 
-tabs, history, bookmarks, and links. The browser features dynamic font switching, keyboard 
-shortcuts, full 9P filesystem integration for scriptable control, and enhanced HTML parsing 
-capabilities. Pass a URL on the command line (or omit it to fetch `http://example.com/`).
+**Gamera is a functionally complete web browser!** 🎉
 
-Only a small subset of HTML is handled currently. When built with `libhtml`
-paragraphs, headings and links are displayed; otherwise tags are stripped
-leaving plain text. DOM parsing is implemented in `src/html.c`, which
-wraps Plan 9's `libhtml` library.
+The browser now includes:
+- ✅ Full HTTP and HTTPS support for secure web browsing
+- ✅ **JavaScript execution engine** for modern web compatibility
+- ✅ Interactive URL input dialog for easy navigation
+- ✅ Comprehensive Plan 9-style window management with contextual menus
+- ✅ Dynamic font switching and keyboard shortcuts
+- ✅ Full 9P filesystem integration for scriptable control
+- ✅ Enhanced HTML parsing via Plan 9's `libhtml` library
+- ✅ Tab management, history, and bookmarks
 
-See `doc/roadmap.md` for completed and planned tasks.
+Pass a URL on the command line (HTTP or HTTPS) or use the interactive URL dialog
+by clicking in the top area of the browser window.
+
+HTML rendering uses Plan 9's `libhtml` for paragraphs, headings, and links.
+DOM parsing is implemented in `src/html.c`.
+
+See `doc/roadmap.md` for implementation details and potential future enhancements.
 
 ## Features
 
+### Network Support
+- **HTTP & HTTPS**: Full support for both secure and standard web protocols
+- **Smart URL Handling**: Automatic protocol detection and port selection
+- **External Tools**: HTTPS via curl/wget (Plan 9 philosophy of using existing tools)
+- **Interactive Input**: URL entry dialog with live feedback and editing
+
 ### Plan 9-Style Interface
 - **Contextual Menus**: Right-click for navigation, middle-click for tabs
-- **Keyboard Shortcuts**: Full keyboard control (t=new tab, n/p=switch tabs, m/f=fonts, q=quit)  
+- **Keyboard Shortcuts**: Full keyboard control (t=new tab, n/p=switch tabs, m/f=fonts, q=quit)
 - **Smart Tab Management**: Display actual URLs/hostnames in tab menu
 - **Font Switching**: Runtime switching between regular and monospace fonts
 - **Link Navigation**: Extract and follow links via contextual menu
+- **URL Dialog**: Click top area to enter URLs interactively
 
 ### Enhanced HTML Support
 - **Improved Parser**: Better handling of paragraphs, headings and links via `libhtml`
 - **Text Rendering**: Clean display of formatted text with proper spacing
 - **Tag Processing**: Support for basic HTML structure elements
 - **DOM Parsing**: `src/html.c` provides wrapper around Plan 9's `libhtml` library
+
+### JavaScript Support
+- **Minimal Interpreter**: Custom JavaScript engine designed for Plan 9
+- **DOM API**: Basic document.getElementById() and DOM manipulation
+- **Console API**: console.log() for debugging and output
+- **Variable Support**: var declarations and assignments
+- **Function Calls**: Basic function execution and expressions
+- **Modern Compatibility**: Enables functionality on JavaScript-dependent sites
 
 ### Scriptable Design
 - **9P Filesystem**: Complete browser control via file operations
@@ -128,9 +152,12 @@ Helper scripts are provided in the `scripts/` directory:
 
 Gamera follows Plan 9 conventions for user interaction:
 
-* **Button 1 (Left Click)** - Click in the top area to open a new tab (currently opens example.com)
+* **Button 1 (Left Click)** - Click in the top area to open URL input dialog
+  - Type any URL (http:// or https://)
+  - Press Enter to navigate, ESC to cancel
+  - Backspace to edit, live visual feedback
 * **Button 2 (Middle Click)** - Opens the tab menu to switch between tabs or create new ones
-* **Button 3 (Right Click)** - Opens the navigation menu for History and Bookmarks
+* **Button 3 (Right Click)** - Opens the navigation menu for History, Bookmarks, and Links
 
 When multiple tabs are open, the current tab number is displayed at the top.
 Tab menu shows readable hostnames/URLs for easy identification.
