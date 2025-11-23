@@ -1,6 +1,6 @@
 <$PLAN9/src/mkhdr
 
-TARG=parser_test parseurl_test fetch_url_test html_test color_test css_test layout_test
+TARG=parser_test parseurl_test fetch_url_test html_test color_test css_test layout_test image_test
 
 # source file providing fetch_url implementation
 FETCHER_SRC=../src/fetcher.c
@@ -65,5 +65,14 @@ layout_test.$O: layout_test.c ../src/layout.h ../src/css.h ../src/color.h
 layout.$O: ../src/layout.c ../src/layout.h ../src/css.h ../src/color.h
     $CC -I../src -c -o $target ../src/layout.c
 
+image_test: image_test.$O image.$O
+    $LD -o $target image_test.$O image.$O
+
+image_test.$O: image_test.c ../src/image.h
+    $CC -I../src -c -o $target image_test.c
+
+image.$O: ../src/image.c ../src/image.h
+    $CC -I../src -c -o $target ../src/image.c
+
 clean:V:
-    rm -f *.[$OS] $TARG parser.$O fetcher.$O html.$O color.$O css.$O layout.$O
+    rm -f *.[$OS] $TARG parser.$O fetcher.$O html.$O color.$O css.$O layout.$O image.$O
