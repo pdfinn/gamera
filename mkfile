@@ -8,9 +8,11 @@ LIB=\
 TARG=gamera
 
 # object files for the build
-OFILES=main.$O fetcher.$O parser.$O html.$O render.$O font.$O serve9p.$O tabs.$O fs.$O js.$O
+OFILES=main.$O fetcher.$O parser.$O html.$O render.$O font.$O serve9p.$O tabs.$O fs.$O js.$O color.$O css.$O
 # serve9p.$O provides the consolidated 9P interface
 # js.$O provides JavaScript execution support
+# color.$O provides CSS color parsing
+# css.$O provides CSS stylesheet parsing
 
 $TARG: $OFILES
 	$LD -o $target $OFILES $LIB
@@ -46,6 +48,12 @@ fs.$O: src/fs.c src/fs.h
 
 js.$O: src/js.c src/js.h
         $CC -c -o $target src/js.c
+
+color.$O: src/color.c src/color.h
+	$CC -c -o $target src/color.c
+
+css.$O: src/css.c src/css.h src/color.h
+	$CC -c -o $target src/css.c
 
 clean:V:
 	rm -f *.[$OS] $TARG
