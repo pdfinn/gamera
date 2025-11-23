@@ -13,6 +13,11 @@
 #include "font.h"
 #include "html.h"
 #include "js.h"
+#include "css.h"
+#include "layout.h"
+#include "builder.h"
+#include "boxrender.h"
+#include "image.h"
 
 static char *current;
 static JSContext *jsctx;
@@ -29,6 +34,8 @@ static int ntabitems;
 static char **linkitems;
 static int nlinkitems;
 static Link *currentlinks;
+static ImgCache *imgcache;  /* Image cache for rendering */
+static int use_css_rendering = 1;  /* Toggle for CSS vs old rendering */
 
 /* Function declarations */
 static void updatetabmenu(void);
@@ -108,6 +115,10 @@ update(const char *html, const char *text)
 {
     HtmlDoc *doc = nil;
     Script *scripts, *s;
+    Box *root = nil;
+    CSSStylesheet *sheet = nil;
+    char *css = nil;
+    LayoutContext ctx;
 
     if(!text) text = "";
 
@@ -124,12 +135,71 @@ update(const char *html, const char *text)
         free_scripts(scripts);
     }
 
-    /* Try to parse HTML first if we have HTML content */
+    /* NEW CSS-AWARE RENDERING PIPELINE */
+    if(use_css_rendering && html && html[0]){
+        /* Step 1: Extract CSS from <style> tags */
+        css = extract_css_from_html(html);
+
+        /* Step 2: Parse CSS into stylesheet */
+        if(css && css[0]){
+            sheet = css_parse(css);
+        }
+
+        /* Step 3: Build box tree from HTML */
+        root = build_box_tree(html);
+
+        if(root){
+            /* Step 4: Apply CSS styles to boxes */
+            if(sheet){
+                /* Apply styles recursively to all boxes */
+                Box *box;
+                void apply_styles_recursive(Box *b) {
+                    if(!b) return;
+                    box_compute_style(b, sheet);
+                    for(Box *child = b->first_child; child; child = child->next_sibling)
+                        apply_styles_recursive(child);
+                }
+                apply_styles_recursive(root);
+            } else {
+                /* No CSS - just apply user agent defaults */
+                void apply_defaults_recursive(Box *b) {
+                    if(!b) return;
+                    apply_user_agent_styles(b);
+                    for(Box *child = b->first_child; child; child = child->next_sibling)
+                        apply_defaults_recursive(child);
+                }
+                apply_defaults_recursive(root);
+            }
+
+            /* Step 5: Layout boxes */
+            ctx.viewport = screen->r;
+            ctx.cursor = screen->r.min;
+            ctx.available_width = Dx(screen->r);
+            ctx.stylesheet = sheet;
+            layout_box(root, &ctx);
+
+            /* Step 6: Render with CSS styling */
+            draw(screen, screen->r, display->white, nil, ZP);  /* Clear screen */
+            render_box_tree(root, imgcache);
+            flushimage(display, 1);
+
+            /* Cleanup */
+            box_free(root);
+        }
+
+        if(sheet)
+            css_free(sheet);
+        if(css)
+            free(css);
+
+        return;
+    }
+
+    /* FALLBACK: Old rendering path for non-HTML content */
     if(html && html[0]){
         doc = html_parse(html);
     }
 
-    /* Render content - use parsed HTML if available, otherwise plain text */
     if(doc && doc->items){
         render_items(doc->items);
         html_free(doc);
@@ -311,6 +381,7 @@ keyproc(void *arg)
         case 0x04: /* Ctrl-D */
             font_cleanup();
             js_cleanup(jsctx);
+            imgcache_free(imgcache);
             threadexitsall(nil);
             break;
         case 'm':
@@ -377,6 +448,11 @@ threadmain(int argc, char *argv[])
     jsctx = js_init();
     if(jsctx == nil)
         fprint(2, "warning: JavaScript engine init failed\n");
+
+    /* Initialize image cache */
+    imgcache = imgcache_init(100);  /* Cache up to 100 images */
+    if(imgcache == nil)
+        fprint(2, "warning: image cache init failed\n");
 
     historybuf = strdup("");
     bookmarkbuf = strdup("");
